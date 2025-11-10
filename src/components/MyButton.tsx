@@ -7,7 +7,6 @@ interface MyButtonProps {
 
 export function MyButton({ text, href }: MyButtonProps) {
     const manejarClick = () => {
-        console.log("¡Botón clickeado! Navegando a:", href);
         window.location.href = href;
     };
 

@@ -1,14 +1,19 @@
 import { motion } from "framer-motion";
 import { Card, CardContent } from "./ui/card";
 
-export function SwipeCard() {
+interface SwipeCardProps {
+    name: string;
+    isImpostor: boolean;
+}
+
+export function SwipeCard({ name, isImpostor }: SwipeCardProps) {
     return (
         <Card className="relative w-80 h-80 overflow-hidden rounded-2xl bg-gray-200 shadow-lg">
 
             <CardContent className="p-5">
                 <h3 className="text-xl font-bold text-gray-900">Contenido Secreto</h3>
                 <p className="mt-2 text-gray-700">
-                    Este es el contenido que se revela al deslizar.
+                    Eres {isImpostor ? 'el Impostor' : 'un Tripulante'}: {name}
                 </p>
             </CardContent>
 
@@ -19,7 +24,7 @@ export function SwipeCard() {
                     dragConstraints={{ top: 0, bottom: 0, }}
                     dragElastic={{ top: 0.5, }}
                 >
-                    <h2 className="text-2xl font-bold">Contenido Exterior</h2>
+                    <h2 className="text-2xl font-bold">{name}</h2>
                     <p className="mt-2">↑ Arrástrame hacia arriba ↑</p>
                 </motion.div>
             </CardContent>

@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { actions } from "astro:actions";
 import type { Player } from "@/interfaces";
 
 interface ConfiguracionJuegoProps {
@@ -42,21 +43,14 @@ export function SetupScreen({
         if (!canStart) return;
 
         try {
-            // Guardar jugadores en la sesión
-            const response = await fetch('/api/save-players', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ players }),
-            });
+            // Usar la acción startGame
+            const result = await actions.startGame({ players });
 
-            if (response.ok) {
+            if (result.data?.success) {
                 // Redirigir a la página del juego
                 window.location.href = onGameStartRedirect;
             } else {
-                const data = await response.json();
-                console.error('Error al guardar jugadores:', data.error);
+                console.error('Error al iniciar el juego:', result.error);
             }
         } catch (error) {
             console.error('Error al iniciar el juego:', error);

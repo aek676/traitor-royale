@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import type { Player } from "@/interfaces";
 
 interface ConfiguracionJuegoProps {
     onGameStartRedirect: string;
@@ -37,11 +38,29 @@ export function SetupScreen({
         setPlayers(players.filter((_, index) => index !== indexToRemove));
     };
 
-    const onStartGame = () => {
+    const onStartGame = async () => {
         if (!canStart) return;
-        // Lógica para empezar el juego (usamos el prop)
-        console.log("Empezando juego con:", players);
-        window.location.href = onGameStartRedirect;
+
+        try {
+            // Guardar jugadores en la sesión
+            const response = await fetch('/api/save-players', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ players }),
+            });
+
+            if (response.ok) {
+                // Redirigir a la página del juego
+                window.location.href = onGameStartRedirect;
+            } else {
+                const data = await response.json();
+                console.error('Error al guardar jugadores:', data.error);
+            }
+        } catch (error) {
+            console.error('Error al iniciar el juego:', error);
+        }
     };
 
     return (

@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+export const prerender = false;
+
+// Obtener jugadores de la sesión
+const players = await Astro.session?.get("players");
+const gameStarted = await Astro.session?.get("gameStarted");
+
+// Redirigir si no hay jugadores en la sesión
+if (!players || players.length === 0) {
+    return Astro.redirect("/config");
+}
+---
+
+<Layout title="Game">
+    <div class="min-h-screen p-8">
+        <h2 class="text-3xl font-bold mb-4">Juego iniciado</h2>
+        <p class="mb-4">Jugadores en la partida:</p>
+        <ul class="space-y-2">
+            {
+                players.map((player: string) => (
+                    <li class="bg-card p-3 rounded-lg border border-border">
+                        {player}
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</Layout>

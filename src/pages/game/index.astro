@@ -1,40 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import type { Player } from "@/interfaces";
-
-export const prerender = false;
-
-// Obtener jugadores de la sesión
-const players = await Astro.session?.get("players") as Player[];
-const gameStarted = await Astro.session?.get("gameStarted");
-
-// Redirigir si no hay jugadores en la sesión
-if (!players || players.length === 0) {
-    return Astro.redirect("/config");
-}
 ---
 
-<Layout title="Game">
-    <div class="min-h-screen p-8">
-        <h2 class="text-3xl font-bold mb-4">Juego iniciado</h2>
-        <p class="mb-4">Jugadores en la partida (mezclados):</p>
-        <ul class="space-y-2">
-            {
-                players.map((player: Player, index: number) => (
-                    <li class="bg-card p-3 rounded-lg border border-border flex justify-between items-center">
-                        <div>
-                            <span class="font-medium">{player.name}</span>
-                            {player.isImpostor && <span class="text-red-500 ml-2">(👹 Impostor)</span>}
-                        </div>
-                        <span class="text-sm text-muted-foreground">#{index + 1}</span>
-                    </li>
-                ))
-            }
-        </ul>
-        
-        <div class="mt-8 p-4 bg-muted rounded-lg">
-            <h3 class="font-bold mb-2">Próximo turno:</h3>
-            <p class="text-lg">{players[0]?.name} - ¡Es tu turno!</p>
-        </div>
-    </div>
+<Layout title="Traitor Royale">
+    <h1>Que empiece el juego</h1>
 </Layout>

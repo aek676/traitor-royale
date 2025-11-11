@@ -6,6 +6,8 @@ declare namespace App {
     interface SessionData {
         players: Player[];
         gameStarted?: boolean;
-        currentPlayer?: string;
+        currentPlayerIndex?: number;
+        gamePhase?: 'revealing' | 'playing' | 'finished';
+        winner?: string;
     }
 }

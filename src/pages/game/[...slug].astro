@@ -1,4 +1,57 @@
 ---
-const storedPlayers = sessionStorage.getItem("players");
-console.log(storedPlayers);
+import Layout from "@/layouts/Layout.astro";
+import type { Player } from "@/interfaces";
+
+export const prerender = false;
+
+// Obtener el slug del URL (nombre del jugador)
+const { slug } = Astro.params;
+
+// Obtener datos de la sesión
+const players = (await Astro.session?.get("players")) as Player[];
+console.log("Players in session:", players);
+
+// Encontrar el jugador actual por su nombre
+const currentPlayer = players.find((player) => player.name === slug);
+
+// Redirigir si el jugador no existe
+if (!currentPlayer) {
+    return Astro.redirect("/game");
+}
 ---
+
+<Layout title={`Turno de ${currentPlayer.name}`}>
+    <div class="min-h-screen p-8">
+        <div class="max-w-2xl mx-auto">
+            <h1 class="text-4xl font-bold mb-4">
+                ¡Es tu turno, {currentPlayer.name}!
+            </h1>
+
+            {
+                currentPlayer.isImpostor ? (
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                        <strong class="font-bold">¡Eres el TRAIDOR!</strong>
+                        <p class="mt-2">
+                            Debes eliminar a los otros jugadores sin que te
+                            descubran.
+                        </p>
+                    </div>
+                ) : (
+                    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded mb-6">
+                        <strong class="font-bold">¡Eres un ciudadano!</strong>
+                        <p class="mt-2">
+                            Debes encontrar y eliminar al traidor entre los
+                            jugadores.
+                        </p>
+                    </div>
+                )
+            }
+            <a
+                href={`/game/${currentPlayer.nextPlayer === "-1" ? "" : encodeURIComponent(currentPlayer.nextPlayer)}`}
+                class="bg-muted hover:bg-muted/80 text-muted-foreground px-6 py-3 rounded-lg font-semibold"
+            >
+                Siguiente jugador
+            </a>
+        </div>
+    </div>
+</Layout>

@@ -1,6 +1,7 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import type { Player } from '@/interfaces';
+import { getRandomCard } from '@/lib/clashRoyaleApi';
 
 export const server = {
   startGame: defineAction({
@@ -20,10 +21,10 @@ export const server = {
         isImpostor: index === impostorIndex
       }));
 
+      const randomCard = await getRandomCard();
+
       await context.session?.set('players', players);
-      await context.session?.set('currentPlayerIndex', 0);
-      await context.session?.set('gameStarted', true);
-      await context.session?.set('gamePhase', 'revealing'); 
+      await context.session?.set('randomCard', randomCard);
 
       return {
         success: true,

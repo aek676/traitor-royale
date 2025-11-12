@@ -11,3 +11,11 @@ declare namespace App {
         winner?: string;
     }
 }
+
+interface ImportMetaEnv {
+    readonly CLASH_ROYALE_API_KEY: string;
+}
+
+interface ImportMeta {
+    readonly env: ImportMetaEnv;
+}

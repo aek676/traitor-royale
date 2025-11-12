@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import type { Player } from "@/interfaces";
+import type { Player, Card } from "@/interfaces";
 import { SwipeCard } from "@/components/SwipeToRevealCard";
 import { MyButton } from "@/components/MyButton";
 
@@ -15,20 +15,27 @@ const currentPlayer = players.find((player) => player.name === slug);
 if (!currentPlayer) {
     return Astro.redirect("/");
 }
+
+const randomCard = !currentPlayer.isImpostor
+    ? ((await Astro.session?.get("randomCard")) as Card | null)
+    : null;
 ---
 
 <Layout title={`Turno de ${currentPlayer.name}`}>
     <div class="flex flex-col justify-center items-center h-screen gap-3">
         <h1 class="text-4xl font-bold">Turno de {currentPlayer.name}</h1>
 
-        <SwipeCard client:load isImpostor={currentPlayer.isImpostor} />
-        <div>
-            <MyButton
-                href={`/game/${currentPlayer.nextPlayer === "-1" ? "" : encodeURIComponent(currentPlayer.nextPlayer)}`}
-                text="Siguiente jugador"
-            >
-                Siguiente jugador
-            </MyButton>
-        </div>
+        <SwipeCard
+            client:load
+            isImpostor={currentPlayer.isImpostor}
+            image={randomCard?.iconUrls.medium}
+        />
+        <MyButton
+            client:load
+            href={`/game/${currentPlayer.nextPlayer === "-1" ? "" : encodeURIComponent(currentPlayer.nextPlayer)}`}
+            text="Siguiente jugador"
+        >
+            Siguiente jugador
+        </MyButton>
     </div>
 </Layout>

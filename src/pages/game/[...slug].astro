@@ -18,17 +18,17 @@ if (!currentPlayer) {
 ---
 
 <Layout title={`Turno de ${currentPlayer.name}`}>
-    <div class="flex flex-col justify-center items-center gap-3">
-            <SwipeCard
-                client:load
-                name={currentPlayer.name}
-                isImpostor={currentPlayer.isImpostor}
-            />
-            <a
-                href={`/game/${currentPlayer.nextPlayer === "-1" ? "" : encodeURIComponent(currentPlayer.nextPlayer)}`}
-                class="bg-muted hover:bg-muted/80 text-muted-foreground px-6 py-3 rounded-lg font-semibold"
-            >
-                Siguiente jugador
-            </a>
+    <div class="flex flex-col justify-center items-center h-screen gap-3">
+        <SwipeCard
+            client:load
+            name={currentPlayer.name}
+            isImpostor={currentPlayer.isImpostor}
+        />
+        <a
+            href={`/game/${currentPlayer.nextPlayer === "-1" ? "" : encodeURIComponent(currentPlayer.nextPlayer)}`}
+            class="bg-muted hover:bg-muted/80 text-muted-foreground px-6 py-3 rounded-lg font-semibold"
+        >
+            Siguiente jugador
+        </a>
     </div>
 </Layout>

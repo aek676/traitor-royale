@@ -10,30 +10,26 @@ export const server = {
     handler: async (input, context) => {
       const playerNames = input.players;
 
-      // Determinar quién es el impostor (aleatorio)
-      const impostorIndex = Math.floor(Math.random() * playerNames.length);
+      const shuffledPlayers = [...playerNames].sort(() => Math.random() - 0.5);
 
-      // Crear array de jugadores con roles asignados
-      const players: Player[] = playerNames.map((name, index) => ({
+      const impostorIndex = Math.floor(Math.random() * shuffledPlayers.length);
+
+      const players: Player[] = shuffledPlayers.map((name, index) => ({
         name,
-        nextPlayer: playerNames.length <= index + 1 ? '-1' : playerNames[index + 1],
+        nextPlayer: shuffledPlayers.length <= index + 1 ? '-1' : shuffledPlayers[index + 1],
         isImpostor: index === impostorIndex
       }));
 
-      // Mezclar el orden de los jugadores para la sesión
-      const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
-
-      // Guardar en sesión
-      await context.session?.set('players', shuffledPlayers);
+      await context.session?.set('players', players);
       await context.session?.set('currentPlayerIndex', 0);
       await context.session?.set('gameStarted', true);
-      await context.session?.set('gamePhase', 'revealing'); // Fase de revelación de roles
+      await context.session?.set('gamePhase', 'revealing'); 
 
       return {
         success: true,
         playersCount: shuffledPlayers.length,
         gameId: crypto.randomUUID(),
-        firstPlayer: shuffledPlayers[0].name
+        firstPlayer: players[0].name
       };
     },
   }),

@@ -1,7 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+
+const randomPlayerToStart = (await Astro.session?.get(
+    "randomPlayerToStart",
+)) as string;
 ---
 
 <Layout title="Traitor Royale">
-    <h1>Que empiece el juego</h1>
+    <h1>Que empiece el juego {randomPlayerToStart}</h1>
 </Layout>

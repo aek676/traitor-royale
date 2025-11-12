@@ -22,9 +22,11 @@ export const server = {
       }));
 
       const randomCard = await getRandomCard();
+      const randomPlayerToStart = playerNames[Math.floor(Math.random() * playerNames.length)];
 
       await context.session?.set('players', players);
       await context.session?.set('randomCard', randomCard);
+      await context.session?.set('randomPlayerToStart', randomPlayerToStart);
 
       return {
         success: true,

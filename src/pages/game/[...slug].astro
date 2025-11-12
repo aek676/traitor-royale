@@ -5,29 +5,20 @@ import { SwipeCard } from "@/components/SwipeToRevealCard";
 
 export const prerender = false;
 
-// Obtener el slug del URL (nombre del jugador)
 const { slug } = Astro.params;
 
-// Obtener datos de la sesión
 const players = (await Astro.session?.get("players")) as Player[];
 console.log("Players in session:", players);
 
-// Encontrar el jugador actual por su nombre
 const currentPlayer = players.find((player) => player.name === slug);
 
-// Redirigir si el jugador no existe
 if (!currentPlayer) {
     return Astro.redirect("/");
 }
 ---
 
 <Layout title={`Turno de ${currentPlayer.name}`}>
-    <div class="min-h-screen p-8">
-        <div class="max-w-2xl mx-auto">
-            <h1 class="text-4xl font-bold mb-4">
-                ¡Es tu turno, {currentPlayer.name}!
-            </h1>
-
+    <div class="flex flex-col justify-center items-center gap-3">
             <SwipeCard
                 client:load
                 name={currentPlayer.name}
@@ -39,6 +30,5 @@ if (!currentPlayer) {
             >
                 Siguiente jugador
             </a>
-        </div>
     </div>
 </Layout>

@@ -1,33 +1,32 @@
 import { motion } from "framer-motion";
-import { Card, CardContent } from "./ui/card";
 
 interface SwipeCardProps {
-    name: string;
     isImpostor: boolean;
+    image?: string;
 }
 
-export function SwipeCard({ name, isImpostor }: SwipeCardProps) {
+const imgSrc = "https://cdns3.royaleapi.com/cdn-cgi/image/w=150,h=180,format=auto/static/img/cards/v8-7d088998/goblin-cage-ev1.png";
+const reveledImgSrc = "https://static.wikia.nocookie.net/clashroyale/images/3/3a/MysteryCard.png"
+
+export function SwipeCard({ isImpostor = true, image = imgSrc }: SwipeCardProps) {
     return (
-        <Card className="relative w-80 h-80 overflow-hidden rounded-2xl bg-gray-200 shadow-lg">
+        <div className="relative overflow-hidden w-40 rounded-2xl bg-gray-200 shadow-lg bg-clip-border border-4">
+            {isImpostor ? (
+                <div className="relative w-full aspect-150/180 flex items-center justify-center rounded-lg overflow-hidden">
+                    <p className="text-xl font-bold text-red-500">IMPOSTOR</p>
+                </div>
+            ) : (
+                <img src={image} alt={`Carta de Clash Royale`} className="w-full h-fit" />
+            )}
 
-            <CardContent className="p-5">
-                <h3 className="text-xl font-bold text-gray-900">Contenido Secreto</h3>
-                <p className="mt-2 text-gray-700">
-                    Eres {isImpostor ? 'el Impostor' : 'un Tripulante'}: {name}
-                </p>
-            </CardContent>
-
-            <CardContent>
-                <motion.div
-                    className="absolute inset-0 h-full bg-blue-600 p-5 text-white cursor-grab active:cursor-grabbing"
-                    drag="y"
-                    dragConstraints={{ top: 0, bottom: 0, }}
-                    dragElastic={{ top: 0.5, }}
-                >
-                    <h2 className="text-2xl font-bold">{name}</h2>
-                    <p className="mt-2">↑ Arrástrame hacia arriba ↑</p>
-                </motion.div>
-            </CardContent>
-        </Card>
+            <motion.div
+                className="absolute inset-0 h-full bg-center text-white cursor-grab active:cursor-grabbing"
+                style={{ backgroundImage: `url(${reveledImgSrc})` }}
+                role="img"
+                drag="y"
+                dragConstraints={{ top: 0, bottom: 0 }}
+                dragElastic={{ top: 0.8 }}
+            />
+        </div>
     );
 }

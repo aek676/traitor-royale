@@ -14,7 +14,7 @@ export function MyButton({ text, href }: MyButtonProps) {
         <Button
             onClick={manejarClick}
             size="lg"
-            className="text-xl px-12 py-6 bg-button hover:bg-button/90 text-button-foreground shadow-[0_0_30px_hsl(var(--button)/0.5)] hover:shadow-[0_0_50px_hsl(var(--button)/0.7)] transition-all duration-300">
+            className="text-xl px-10 py-6 bg-button hover:bg-button/90 text-button-foreground shadow-[0_0_30px_hsl(var(--button)/0.5)] hover:shadow-[0_0_50px_hsl(var(--button)/0.7)] transition-all duration-300">
             {text}
         </Button>
     );

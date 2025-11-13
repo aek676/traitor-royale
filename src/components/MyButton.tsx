@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"; // Ajusta esta ruta a tu instal
 
 interface MyButtonProps {
     text: string;
-    href: string;
+    href?: string;
 }
 
 export function MyButton({ text, href }: MyButtonProps) {

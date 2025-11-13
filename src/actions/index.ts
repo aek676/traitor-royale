@@ -2,6 +2,7 @@ import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import type { Player } from '@/interfaces';
 import { getRandomCard } from '@/lib/clashRoyaleApi';
+import { randomInt } from 'crypto';
 
 export const server = {
   startGame: defineAction({
@@ -13,7 +14,7 @@ export const server = {
 
       const shuffledPlayers = [...playerNames].sort(() => Math.random() - 0.5);
 
-      const impostorIndex = Math.floor(Math.random() * shuffledPlayers.length);
+      const impostorIndex = randomInt(0, shuffledPlayers.length);
 
       const players: Player[] = shuffledPlayers.map((name, index) => ({
         name,
@@ -22,7 +23,7 @@ export const server = {
       }));
 
       const randomCard = await getRandomCard();
-      const randomPlayerToStart = playerNames[Math.floor(Math.random() * playerNames.length)];
+      const randomPlayerToStart = playerNames[randomInt(0, playerNames.length)];
 
       await context.session?.set('players', players);
       await context.session?.set('randomCard', randomCard);

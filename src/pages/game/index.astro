@@ -7,5 +7,7 @@ const randomPlayerToStart = (await Astro.session?.get(
 ---
 
 <Layout title="Traitor Royale">
-    <h1>Que empiece el juego {randomPlayerToStart}</h1>
+    <div class="flex flex-col items-center justify-center min-h-screen">
+        <h1>Que empiece el juego {randomPlayerToStart}</h1>
+    </div>
 </Layout>

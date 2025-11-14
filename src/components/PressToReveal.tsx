@@ -1,40 +1,24 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import { BattleBannerImpostor } from "@/assets";
+import { useState } from "react";
 
 export default function PressToReveal() {
-    const [isVisible, setIsVisible] = useState(true);
-    const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
-    const scaleFactor = 0.3;
-
-    useEffect(() => {
-        const img = new Image();
-        img.onload = () => {
-            setImageSize({ width: img.naturalWidth, height: img.naturalHeight });
-        };
-        img.src = BattleBannerImpostor.src;
-    }, []);
-
-    const handleClick = () => {
-        setIsVisible(false);
-    };
-
-    const scaledWidth = imageSize.width * scaleFactor;
-    const scaledHeight = imageSize.height * scaleFactor;
+    const [isAnimating, setIsAnimating] = useState(false);
 
     return (
-        <div className="relative rounded-2xl">
+        <div className="relative overflow-hidden w-full aspect-4/1 max-w-96 sm:max-w-2xl">
             <div
-                className="relative flex items-center justify-center rounded-lg "
-                style={{ width: scaledWidth || 'auto', height: scaledHeight || 'auto' }}
+                className="absolute inset-0 flex items-center justify-center"
             >
                 <p className="text-xl font-bold text-red-500">IMPOSTOR</p>
             </div>
 
             <motion.div
-                onTap={() => {a}}
-                className="absolute inset-0 h-full bg-transparent cursor-pointer"
-                style={{ backgroundImage: `url(${BattleBannerImpostor.src})`, backgroundSize: 'cover' }}
+                animate={isAnimating && { x: "-100%", opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                onTap={() => { setIsAnimating(true) }}
+                className="absolute inset-0 h-full cursor-pointer bg-cover bg-center"
+                style={{ backgroundImage: `url(${BattleBannerImpostor.src})` }}
             />
 
         </div>

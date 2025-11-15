@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    image: ${DOCKER_IMAGE:-traitor-royale:latest}
+    # use env_file to load sensitive vars at runtime (don't bake them into image)
+    env_file:
+      - .env
+    environment:
+      - HOST=0.0.0.0
+      - PORT=4321
+      # do NOT use substitution for secret vars; allow env_file to set them
+      # CLASH_ROYALE_API_KEY
+      # RENDER_API
+    ports:
+      - "4321:4321"
+    restart: unless-stopped

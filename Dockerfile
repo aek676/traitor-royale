@@ -26,6 +26,8 @@ COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /usr/src/app/dist ./dist
 COPY --from=prerelease /usr/src/app/package.json .
 
+RUN mkdir -p ./.astro/sessions && chown -R bun:bun ./.astro
+
 # for external access
 ENV HOST=0.0.0.0
 ENV PORT=4321

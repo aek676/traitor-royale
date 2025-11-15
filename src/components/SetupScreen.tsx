@@ -5,7 +5,6 @@ import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { actions } from "astro:actions";
-import type { Player } from "@/interfaces";
 
 interface ConfiguracionJuegoProps {
     onGameStartRedirect: string;

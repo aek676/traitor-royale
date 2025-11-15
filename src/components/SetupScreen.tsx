@@ -42,7 +42,10 @@ export function SetupScreen({
         if (!canStart) return;
 
         try {
-            const result = await actions.startGame({ players });
+            const formData = new FormData();
+            formData.append('players', JSON.stringify(players));
+
+            const result = await actions.game.startGame(formData);
 
             if (result.data?.success) {
                 const firstPlayer = result.data.firstPlayer;

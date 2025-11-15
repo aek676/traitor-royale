@@ -1,12 +1,9 @@
 import { MyButton } from "./MyButton";
 
-export default function StartGameAgain() {
-    const handleStartAgain = () => {
-        window.location.href = "/";
-    };
+interface StartGameAgainButtonProps {
+    text: string;
+}
 
-    return (
-        <MyButton
-            text="Empezar de nuevo" />
-    );
+export default function ActionButton({ text }: StartGameAgainButtonProps) {
+    return <MyButton text={text} type="submit" />;
 };

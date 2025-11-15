@@ -1,13 +1,25 @@
 ---
-import { MyButton } from "@/components/MyButton";
 import PressToReveal from "@/components/PressToReveal";
 import Layout from "@/layouts/Layout.astro";
+import ActionButton from "@/components/ActionButton";
+import { MyButton } from "@/components/MyButton";
+import type { Player } from "@/interfaces";
+import { actions } from "astro:actions";
 
 const randomPlayerToStart = (await Astro.session?.get(
     "randomPlayerToStart",
 )) as string;
 
-const players = ((await Astro.session?.get("players")) as string[]) || [];
+const players = ((await Astro.session?.get("players")) as Player[]) || [];
+const playersNames = players.map((p) => p.name) || [];
+
+const startGame = await Astro.getActionResult(actions.game.startGame);
+
+if (startGame && !startGame.error) {
+    return Astro.redirect(
+        `/game/${encodeURIComponent(startGame.data.firstPlayer)}`,
+    );
+}
 ---
 
 <Layout title="Traitor Royale">
@@ -15,7 +27,15 @@ const players = ((await Astro.session?.get("players")) as string[]) || [];
         <h1>Que empiece el juego {randomPlayerToStart}</h1>
         <PressToReveal client:load />
         <div>
-            <MyButton text="Empezar de nuevo" />
+            <form action={actions.game.startGame} method="post">
+                {
+                    playersNames.map((name) => (
+                        <input type="hidden" name="players" value={name} />
+                    ))
+                }
+                <ActionButton client:load text="Empezar de nuevo" />
+            </form>
+
             <MyButton text="Reiniciar juego" />
         </div>
     </div>

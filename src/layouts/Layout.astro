@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { BackgroundImage } from "@/assets";
 ---
 
 <!doctype html>
@@ -11,7 +12,7 @@ import "../styles/global.css";
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro Basics</title>
 	</head>
-	<body>
+	<body style={{ backgroundImage: `url(${BackgroundImage.src})` }}>
 		<slot />
 	</body>
 </html>

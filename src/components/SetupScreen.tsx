@@ -43,11 +43,9 @@ export function SetupScreen({
         if (!canStart) return;
 
         try {
-            // Usar la acción startGame
             const result = await actions.startGame({ players });
 
             if (result.data?.success) {
-                // Redirigir a la página del PRIMER jugador mezclado
                 const firstPlayer = result.data.firstPlayer;
                 window.location.href = `/game/${encodeURIComponent(firstPlayer)}`;
             } else {

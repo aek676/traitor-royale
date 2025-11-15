@@ -1,3 +1,4 @@
-import  BattleBannerImpostor from "./BattleBannerImpostor.png";
+import BattleBannerImpostor from "./BattleBannerImpostor.png";
+import BackgroundImage from "./bg.png";
 
-export { BattleBannerImpostor };
+export { BattleBannerImpostor, BackgroundImage };

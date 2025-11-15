@@ -26,9 +26,9 @@ export const game = {
             const randomCard = await getRandomCard();
             const randomPlayerToStart = playerNames[randomInt(0, playerNames.length)];
 
-            await context.session?.set('players', players);
-            await context.session?.set('randomCard', randomCard);
-            await context.session?.set('randomPlayerToStart', randomPlayerToStart);
+            context.session?.set('players', players);
+            context.session?.set('randomCard', randomCard);
+            context.session?.set('randomPlayerToStart', randomPlayerToStart);
 
             return {
                 success: true,
@@ -38,4 +38,13 @@ export const game = {
             };
         },
     }),
+    clearGame: defineAction({
+        accept: "form",
+        handler: async (_input, context) => {
+            context.session?.destroy();
+            return {
+                success: true
+            };
+        },
+    })
 }

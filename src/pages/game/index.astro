@@ -2,7 +2,6 @@
 import PressToReveal from "@/components/PressToReveal";
 import Layout from "@/layouts/Layout.astro";
 import ActionButton from "@/components/ActionButton";
-import { MyButton } from "@/components/MyButton";
 import type { Player } from "@/interfaces";
 import { actions } from "astro:actions";
 
@@ -12,21 +11,31 @@ const randomPlayerToStart = (await Astro.session?.get(
 
 const players = ((await Astro.session?.get("players")) as Player[]) || [];
 const playersNames = players.map((p) => p.name) || [];
+const impostor = players.find((p) => p.isImpostor);
 
-const startGame = await Astro.getActionResult(actions.game.startGame);
+const startGame = Astro.getActionResult(actions.game.startGame);
 
 if (startGame && !startGame.error) {
     return Astro.redirect(
         `/game/${encodeURIComponent(startGame.data.firstPlayer)}`,
     );
 }
+
+const clearGame = Astro.getActionResult(actions.game.clearGame);
+
+if (clearGame && !clearGame.error) {
+    return Astro.redirect(`/config`);
+}
 ---
 
 <Layout title="Traitor Royale">
     <div class="flex flex-col items-center justify-center min-h-screen gap-24">
         <h1>Que empiece el juego {randomPlayerToStart}</h1>
-        <PressToReveal client:load />
-        <div>
+        <PressToReveal
+            nameImpostor={impostor?.name || "Desconocido"}
+            client:load
+        />
+        <div class="flex flex-row gap-4">
             <form action={actions.game.startGame} method="post">
                 {
                     playersNames.map((name) => (
@@ -36,7 +45,9 @@ if (startGame && !startGame.error) {
                 <ActionButton client:load text="Empezar de nuevo" />
             </form>
 
-            <MyButton text="Reiniciar juego" />
+            <form action={actions.game.clearGame} method="post">
+                <ActionButton client:load text="Reinciar juego" />
+            </form>
         </div>
     </div>
 </Layout>

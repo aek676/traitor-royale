@@ -2,7 +2,11 @@ import { motion } from "framer-motion";
 import { BattleBannerImpostor } from "@/assets";
 import { useState } from "react";
 
-export default function PressToReveal() {
+interface PressToRevealProps {
+    nameImpostor: string;
+}
+
+export default function PressToReveal({ nameImpostor }: PressToRevealProps) {
     const [isAnimating, setIsAnimating] = useState(false);
 
     return (
@@ -10,7 +14,7 @@ export default function PressToReveal() {
             <div
                 className="absolute inset-0 flex items-center justify-center"
             >
-                <p className="text-xl font-bold text-red-500">IMPOSTOR</p>
+                <p className="text-xl font-bold text-red-500">{nameImpostor}</p>
             </div>
 
             <motion.div

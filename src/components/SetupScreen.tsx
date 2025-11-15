@@ -12,7 +12,6 @@ interface ConfiguracionJuegoProps {
 }
 
 export function SetupScreen({
-    onGameStartRedirect,
     minPlayers = 3,
 }: ConfiguracionJuegoProps) {
     const [playerName, setPlayerName] = useState("");
@@ -28,7 +27,7 @@ export function SetupScreen({
         }
     };
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             handleAddPlayer();
         }
@@ -43,7 +42,7 @@ export function SetupScreen({
 
         try {
             const formData = new FormData();
-            formData.append('players', JSON.stringify(players));
+            players.forEach((player) => formData.append('players', player));
 
             const result = await actions.game.startGame(formData);
 
@@ -78,7 +77,7 @@ export function SetupScreen({
                                 id="playerName"
                                 value={playerName} // ¡Importante! Conecta el estado
                                 onChange={(e) => setPlayerName(e.target.value)}
-                                onKeyPress={handleKeyPress}
+                                onKeyDown={handleKeyDown}
                                 placeholder="Escribe un nombre..."
                                 className="mt-1 bg-muted/50 border-border text-foreground"
                             />

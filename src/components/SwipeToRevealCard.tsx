@@ -5,10 +5,7 @@ interface SwipeCardProps {
     image?: string;
 }
 
-const imgSrc = "https://cdns3.royaleapi.com/cdn-cgi/image/w=150,h=180,format=auto/static/img/cards/v8-7d088998/goblin-cage-ev1.png";
-const reveledImgSrc = "https://static.wikia.nocookie.net/clashroyale/images/3/3a/MysteryCard.png"
-
-export function SwipeCard({ isImpostor = true, image = imgSrc }: SwipeCardProps) {
+export function SwipeCard({ isImpostor = true, image }: SwipeCardProps) {
     return (
         <div className="relative overflow-hidden w-40 rounded-2xl bg-gray-200 shadow-lg bg-clip-border border-4">
             {isImpostor ? (

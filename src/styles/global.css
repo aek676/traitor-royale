@@ -3,12 +3,12 @@
 
 @font-face {
   font-family: 'ClashRegular';
-  src: url('/fonts/Clash_Regular.otf') format('opentype');
+  src: url('../assets/fonts/Clash_Regular.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'ClashRegular';
-  src: url('/fonts/Clash_Bold.otf') format('opentype');
+  src: url('../assets/fonts/Clash_Bold.otf') format('opentype');
   font-weight: bold;
 }
 

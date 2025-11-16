@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'ClashRegular';
+  src: url('/fonts/Clash_Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'ClashRegular';
+  src: url('/fonts/Clash_Bold.otf') format('opentype');
+  font-weight: bold;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -184,5 +195,6 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'ClashRegular', sans-serif;
   }
 }

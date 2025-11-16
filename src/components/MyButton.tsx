@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button"; // Ajusta esta ruta a tu instalación de ShadCN
-
 interface MyButtonProps {
     text: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -8,13 +6,20 @@ interface MyButtonProps {
 
 export function MyButton({ text, onClick, type = "button" }: MyButtonProps) {
     return (
-        <Button
-            size="lg"
-            className="text-xl px-10 py-6 bg-button hover:bg-button/90 text-button-foreground shadow-[0_0_30px_hsl(var(--button)/0.5)] hover:shadow-[0_0_50px_hsl(var(--button)/0.7)] transition-all duration-300"
-            onClick={onClick}
-            type={type}
-        >
-            {text}
-        </Button>
+        // 1. Cambiamos el <div> exterior por un <button>
+        // 2. Movemos las props 'onClick' y 'type' aquí
+        <button className="couche1" onClick={onClick} type={type}>
+            <div className="couche2">
+                <div className="couche23">
+                    <div className="couche3">
+                        <div className="couche4">
+                            {/* 3. Cambiamos el <button> interno por un <div> */}
+                            <div className="battle">{text}</div>
+                            <div className="couche5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </button>
     );
 }

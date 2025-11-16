@@ -35,18 +35,18 @@ if (clearGame && !clearGame.error) {
             nameImpostor={impostor?.name || "Desconocido"}
             client:load
         />
-        <div class="flex flex-row gap-4">
+        <div class="flex flex-col sm:flex-row justify-center sm:gap-8">
             <form action={actions.game.startGame} method="post">
                 {
                     playersNames.map((name) => (
                         <input type="hidden" name="players" value={name} />
                     ))
                 }
-                <ActionButton client:load text="Empezar de nuevo" />
+                <ActionButton client:load text="Otra partida" />
             </form>
 
             <form action={actions.game.clearGame} method="post">
-                <ActionButton client:load text="Reinciar juego" />
+                <ActionButton client:load text="Nuevo juego" />
             </form>
         </div>
     </div>

@@ -24,6 +24,11 @@ export const game = {
             }));
 
             const randomCard = await getRandomCard();
+
+            if (!randomCard) {
+                throw new Error('No se pudo obtener una carta aleatoria. Por favor, inténtalo de nuevo.');
+            }
+
             const randomPlayerToStart = playerNames[randomInt(0, playerNames.length)];
 
             context.session?.set('players', players);

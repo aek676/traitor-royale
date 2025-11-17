@@ -1,10 +1,8 @@
-import type { Card, Player } from "./interfaces";
-
 declare namespace App {
     interface SessionData {
-        players: Player[];
-        randomCard?: Card;
-        randomPlayerToStart?: string;
+        players: import("./interfaces").Player[];
+        randomCard: import("./interfaces").Card;
+        randomPlayerToStart: string;
     }
 }
 

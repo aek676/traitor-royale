@@ -34,10 +34,10 @@ export async function getAllCards(): Promise<Card[]> {
     }
 }
 
-export async function getRandomCard(): Promise<Card | null> {
+export async function getRandomCard(): Promise<Card | undefined> {
     try {
         const cards = await getAllCards();
-        if (cards.length === 0) return null;
+        if (cards.length === 0) return undefined;
         const randomIndex = Math.floor(Math.random() * cards.length);
         return cards[randomIndex];
     } catch (error) {

@@ -1,7 +1,7 @@
 declare namespace App {
     interface SessionData {
         players: import("./interfaces").Player[];
-        randomCard: import("./schemas/clash-royale").Card;
+        randomCard: import("./schemas").Card;
         randomPlayerToStart: string;
     }
 }

@@ -202,6 +202,9 @@
     box-shadow: 0px 11px 2px #301c09;
     cursor: pointer;
     margin: 20px auto;
+    border: none;
+    padding: 0;
+    display: block;
   }
 
   .couche2 {
@@ -211,8 +214,8 @@
     border-radius: 10px;
     width: 294px;
     height: 94px;
-    margin-top: -47px;
-    margin-left: 3px;
+    top: 3px;
+    left: 3px;
     background: #fda80d;
     -webkit-box-shadow: 0px 9px 0px #af6b06;
     -moz-box-shadow: 0px 9px 0px #af6b06;
@@ -226,8 +229,8 @@
     border-radius: 10px;
     width: 292px;
     height: 80px;
-    margin-top: 5px;
-    margin-left: 1px;
+    top: 5px;
+    left: 1px;
     -webkit-box-shadow: 0px -4px 5px 0px #ffdc33;
     -moz-box-shadow: 0px -4px 5px 0px #ffdc33;
     box-shadow: 0px -4px 5px 0px #ffdc33;
@@ -238,8 +241,8 @@
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    margin-top: 0px;
-    margin-left: 5px;
+    top: 0px;
+    left: 5px;
     width: 281px;
     height: 82px;
     background: rgba(255, 187, 42, 1);
@@ -253,8 +256,8 @@
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    margin-top: 5px;
-    margin-left: 3px;
+    top: 5px;
+    left: 3px;
     width: 275px;
     height: 38px;
     background: #ffd053;
@@ -265,8 +268,8 @@
     -webkit-border-radius: 45%;
     -moz-border-radius: 45%;
     border-radius: 45%;
-    margin-top: 0px;
-    margin-left: 267px;
+    top: 0px;
+    left: 267px;
     width: 7px;
     height: 9px;
     background: #fff1b6;
@@ -292,41 +295,11 @@
 
   /*effects*/
   .couche1:active {
-    width: 280px;
-    height: 95px;
-  }
-
-  .couche1:active .couche2 {
-    width: 274px;
-    height: 89px;
-  }
-
-  .couche1:active .couche23 {
-    width: 272px;
-    height: 75px;
-  }
-
-  .couche1:active .couche3 {
-    width: 261px;
-    height: 77px;
-  }
-
-  .couche1:active .couche4 {
-    width: 255px;
-    height: 32px;
-  }
-
-  .couche1:active .couche5 {
-    width: 6px;
-    height: 8px;
-    margin-left: 248px;
+    transform: scale(0.93, 0.95) translateY(5px);
   }
 
   .couche1:active .battle {
-    margin-top: 3px;
-    /* margin-left: 75px; */
-    margin-left: 2px;
-    font-size: 1.3em;
+    font-size: 1.55em;
   }
 }
 

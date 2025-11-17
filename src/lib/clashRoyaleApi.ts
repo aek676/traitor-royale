@@ -1,4 +1,5 @@
-import type { Card } from "@/interfaces";
+import { cardsApiResponseSchema, type Card } from "@/schemas";
+import { z } from "zod";
 
 const API_BASE_URL = 'https://proxy.royaleapi.dev/v1';
 
@@ -6,13 +7,14 @@ function getApiKey(): string | undefined {
     return process.env.CLASH_ROYALE_API_KEY || (import.meta.env?.CLASH_ROYALE_API_KEY as string | undefined);
 }
 
-export async function getAllCards(): Promise<Card[]> {
+async function getAllCards(): Promise<Card[]> {
     const API_KEY = getApiKey();
     try {
         if (!API_KEY) {
             console.error('CLASH_ROYALE_API_KEY no configurada en el entorno. Revisar docker-compose/env_file.');
             throw new Error('No está configurada CLASH_ROYALE_API_KEY en el entorno');
         }
+
         const response = await fetch(`${API_BASE_URL}/cards`, {
             headers: {
                 'Authorization': `Bearer ${API_KEY}`,
@@ -27,17 +29,27 @@ export async function getAllCards(): Promise<Card[]> {
         }
 
         const data = await response.json();
-        return data.items as Card[];
+
+        try {
+            const validatedData = cardsApiResponseSchema.parse(data);
+            return validatedData.items;
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                console.error('Error de validación Zod:', error.errors);
+                throw new Error('La respuesta de la API no tiene el formato esperado.');
+            }
+            throw new Error('Error desconocido al parsear la respuesta de la API.');
+        }
     } catch (error) {
         console.error('Error al obtener las cartas:', error);
         throw error;
     }
 }
 
-export async function getRandomCard(): Promise<Card | null> {
+export async function getRandomCard(): Promise<Card | undefined> {
     try {
         const cards = await getAllCards();
-        if (cards.length === 0) return null;
+        if (cards.length === 0) return undefined;
         const randomIndex = Math.floor(Math.random() * cards.length);
         return cards[randomIndex];
     } catch (error) {

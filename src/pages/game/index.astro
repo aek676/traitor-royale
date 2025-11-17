@@ -2,15 +2,18 @@
 import PressToReveal from "@/components/PressToReveal";
 import Layout from "@/layouts/Layout.astro";
 import ActionButton from "@/components/ActionButton";
-import type { Player } from "@/interfaces";
 import { actions } from "astro:actions";
 
-const randomPlayerToStart = (await Astro.session?.get(
-    "randomPlayerToStart",
-)) as string;
+const [randomPlayerToStart, players] = await Promise.all([
+    Astro.session?.get("randomPlayerToStart"),
+    await Astro.session?.get("players"),
+]);
 
-const players = ((await Astro.session?.get("players")) as Player[]) || [];
-const playersNames = players.map((p) => p.name) || [];
+if (!players) {
+    return Astro.redirect(`/config`);
+}
+
+const playersNames = players.map((p) => p.name);
 const impostor = players.find((p) => p.isImpostor);
 
 const startGame = Astro.getActionResult(actions.game.startGame);

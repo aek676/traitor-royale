@@ -1,6 +1,5 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import type { Player, Card } from "@/interfaces";
 import { SwipeCard } from "@/components/SwipeToRevealCard";
 import LinkButton from "@/components/LinkButton";
 
@@ -8,7 +7,11 @@ export const prerender = false;
 
 const { slug } = Astro.params;
 
-const players = (await Astro.session?.get("players")) as Player[];
+const players = await Astro.session?.get("players");
+
+if (!players) {
+    return Astro.redirect("/config");
+}
 
 const currentPlayer = players.find((player) => player.name === slug);
 
@@ -17,7 +20,7 @@ if (!currentPlayer) {
 }
 
 const randomCard = !currentPlayer.isImpostor
-    ? ((await Astro.session?.get("randomCard")) as Card | null)
+    ? await Astro.session?.get("randomCard")
     : null;
 ---
 

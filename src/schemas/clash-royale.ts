@@ -39,10 +39,3 @@ export const cardsApiResponseSchema = z.object({
     items: z.array(cardSchema),
     supportItems: z.array(supportItemSchema),
 });
-
-export type CardsApiResponse = z.infer<typeof cardsApiResponseSchema>;
-export type Card = z.infer<typeof cardSchema>;
-export type SupportItem = z.infer<typeof supportItemSchema>;
-export type Rarity = z.infer<typeof raritySchema>;
-export type ItemIconUrls = z.infer<typeof itemIconUrlsSchema>;
-export type SupportItemIconUrls = z.infer<typeof supportItemIconUrlsSchema>;

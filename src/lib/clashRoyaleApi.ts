@@ -1,4 +1,5 @@
-import { cardsApiResponseSchema, type Card } from "@/schemas";
+import { cardsApiResponseSchema } from "@/schemas";
+import type { Card } from "@/types";
 import { z } from "zod";
 
 const API_BASE_URL = 'https://proxy.royaleapi.dev/v1';

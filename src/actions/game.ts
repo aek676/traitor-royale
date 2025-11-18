@@ -1,6 +1,6 @@
 import { defineAction } from "astro:actions";
 import { z } from 'astro:schema';
-import type { Player } from '@/interfaces';
+import type { Player } from '@/types';
 import { getRandomCard } from '@/lib/clashRoyaleApi';
 import { randomInt } from 'crypto';
 

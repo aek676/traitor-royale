@@ -58,7 +58,7 @@ export function SetupScreen({
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-background via-background to-accent/20 p-4">
+        <div className="min-h-screen flex items-center justify-center p-4">
             <Card className="w-full max-w-2xl bg-card/90 backdrop-blur border-border p-8 space-y-6 animate-in fade-in duration-500">
                 <div className="text-center space-y-2">
                     <h2 className="text-4xl font-bold text-foreground">Configuración</h2>

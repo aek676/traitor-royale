@@ -24,6 +24,7 @@ jobs:
   docker:
     name: build-and-push-docker
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     needs: build
     steps:
       - name: Checkout repo
@@ -51,6 +52,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     permissions:
       deployments: write
     needs: [build, docker]

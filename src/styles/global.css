@@ -108,6 +108,92 @@
       height: 0;
     }
   }
+
+  /* Usamos 'trueno-svg' para diferenciarla */
+  --animate-flash-rojo: flash-rojo 5s linear infinite;
+
+  @keyframes flash-rojo {
+
+    0%,
+    39% {
+      fill: #100770;
+      filter: drop-shadow(0 0 0 transparent);
+    }
+
+    /* --- FASE 2: EL TRUENO PRINCIPAL (Doble impacto) --- */
+
+    /* 39.5%: Pre-ignición (pequeña chispa antes del golpe) */
+    39.5% {
+      fill: #ea401f;
+      filter: drop-shadow(0 0 5px rgba(234, 64, 31, 0.5));
+    }
+
+    /* 40%: ¡IMPACTO! (Brillo máximo) */
+    40% {
+      fill: #ffffff;
+      /* Núcleo blanco para más realismo */
+      /* Doble sombra para un glow muy intenso */
+      filter: drop-shadow(0 0 15px rgba(234, 64, 31, 1)) drop-shadow(0 0 30px rgba(234, 64, 31, 0.8));
+    }
+
+    /* 40.5%: Apagado momentáneo (flicker) */
+    40.5% {
+      fill: #100770;
+      filter: drop-shadow(0 0 0 transparent);
+    }
+
+    /* 41%: RÉPLICA (Vuelve al rojo original) */
+    41% {
+      fill: #ea401f;
+      filter: drop-shadow(0 0 20px rgba(234, 64, 31, 0.9));
+    }
+
+    /* 42% - 44%: Desvanecimiento rápido (residuo eléctrico) */
+    42% {
+      fill: #691e1e;
+      /* Un rojo muy oscuro, casi apagado */
+      filter: drop-shadow(0 0 5px rgba(234, 64, 31, 0.3));
+    }
+
+    44% {
+      fill: #100770;
+      filter: drop-shadow(0 0 0 transparent);
+    }
+
+    /* --- FASE 3: SILENCIO (3s - 5s) --- */
+    44.1%,
+    70% {
+      fill: #100770;
+      filter: drop-shadow(0 0 0 transparent);
+    }
+
+    /* --- FASE 4: SEGUNDO TRUENO (Un solo golpe seco) --- */
+
+    70.1% {
+      fill: #ffffff;
+      /* Flash blanco instantáneo */
+      filter: drop-shadow(0 0 25px rgba(234, 64, 31, 1));
+    }
+
+    70.3% {
+      fill: #ea401f;
+      /* Baja a rojo */
+      filter: drop-shadow(0 0 10px rgba(234, 64, 31, 0.8));
+    }
+
+    71% {
+      fill: #100770;
+      /* Se apaga de golpe */
+      filter: drop-shadow(0 0 0 transparent);
+    }
+
+    /* --- FASE 5: SILENCIO FINAL (5s - 7s) --- */
+    71.1%,
+    100% {
+      fill: #100770;
+      filter: drop-shadow(0 0 0 transparent);
+    }
+  }
 }
 
 :root {

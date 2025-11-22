@@ -4,7 +4,7 @@ import ImpostorAnimation from "@/components/ImpostorAnimation.astro";
 ---
 
 <div class="min-h-screen flex items-center justify-center p-4">
-	<div class="text-center space-y-8 animate-in fade-in duration-700">
+	<div class="text-center space-y-8 animate-in fade-in duration-700 w-full">
 		<div class="space-y-4">
 			<h1
 				class="text-6xl md:text-8xl font-bold text-foreground drop-shadow-lg"
@@ -14,13 +14,13 @@ import ImpostorAnimation from "@/components/ImpostorAnimation.astro";
 		</div>
 
 		<div
-			class="relative
-    rounded-xl
-    border-[3px] border-red-900/30
-    bg-linear-to-b from-black via-[#250101] to-[#2a0a0a]
-    shadow-[inset_0_0_120px_rgba(0,0,0,1)]
-    drop-shadow-[0_0_30px_rgba(220,38,38,0.2)]
-    flex flex-col items-center justify-center overflow-hidden"
+			class="relative w-fit mx-auto
+            h-auto px-8
+            rounded-xl
+            border-[3px] border-red-900/30
+            bg-linear-to-b from-black via-[#250101] to-[#2a0a0a]
+            shadow-[inset_0_0_120px_rgba(0,0,0,1)]
+            drop-shadow-[0_0_30px_rgba(220,38,38,0.2)]"
 		>
 			<div
 				class="absolute inset-0 bg-black opacity-10 mix-blend-overlay pointer-events-none"

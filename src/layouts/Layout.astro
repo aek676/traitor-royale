@@ -58,7 +58,10 @@ const optimizedBackground = await getImage({
 		<ClientRouter />
 	</head>
 
-	<body style={`background-image: url(${optimizedBackground.src});`}>
+	<body
+		class="bg-center bg-repeat bg-size-[auto_250px]"
+		style={`background-image: url(${optimizedBackground.src});`}
+	>
 		<slot />
 	</body>
 </html>
@@ -73,9 +76,5 @@ const optimizedBackground = await getImage({
 		margin: 0;
 		width: 100%;
 		min-height: 100vh;
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-attachment: fixed;
 	}
 </style>

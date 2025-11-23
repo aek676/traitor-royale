@@ -28,7 +28,7 @@ const optimizedBackground = await getImage({
 <html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<link
 			rel="icon"
@@ -59,7 +59,7 @@ const optimizedBackground = await getImage({
 	</head>
 
 	<body
-		class="bg-center bg-repeat bg-size-[auto_250px]"
+		class="bg-center bg-repeat bg-size-[auto_190px] min-h-screen overflow-x-hidden relative"
 		style={`background-image: url(${optimizedBackground.src});`}
 	>
 		<slot />
@@ -70,11 +70,12 @@ const optimizedBackground = await getImage({
 	html {
 		font-family: system-ui, sans-serif;
 		background-color: #13151a;
+		scroll-behavior: smooth;
 	}
 
 	body {
 		margin: 0;
 		width: 100%;
-		min-height: 100vh;
+		max-width: 100vw;
 	}
 </style>

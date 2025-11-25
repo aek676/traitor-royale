@@ -28,7 +28,7 @@ export const cardSchema = z.object({
 });
 
 export const supportItemSchema = z.object({
-    name: z.string(),
+    name: z.string().nullable(),
     id: z.number().int(),
     maxLevel: z.number().int(),
     iconUrls: supportItemIconUrlsSchema,

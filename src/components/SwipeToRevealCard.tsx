@@ -5,7 +5,7 @@ interface SwipeCardProps {
     image?: string;
 }
 
-export function SwipeCard({ isImpostor = true, image }: SwipeCardProps) {
+export function SwipeCard({ isImpostor, image }: SwipeCardProps) {
     return (
         <div className="relative overflow-hidden w-40 rounded-2xl bg-gray-200 shadow-lg bg-clip-border border-4">
             {isImpostor ? (

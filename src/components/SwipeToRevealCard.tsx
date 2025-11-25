@@ -28,3 +28,5 @@ export function SwipeCard({ isImpostor, image }: SwipeCardProps) {
         </div>
     );
 }
+
+

@@ -6,8 +6,6 @@ interface SwipeCardProps {
 }
 
 export function SwipeCard({ isImpostor, image }: SwipeCardProps) {
-    const newImage = image?.replace("/300", "");
-
     return (
         <div className="relative overflow-hidden w-40 rounded-2xl bg-gray-200 shadow-lg bg-clip-border border-4">
             {isImpostor ? (

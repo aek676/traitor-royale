@@ -6,6 +6,8 @@ interface SwipeCardProps {
 }
 
 export function SwipeCard({ isImpostor, image }: SwipeCardProps) {
+    const newImage = image?.replace("/300", "");
+
     return (
         <div className="relative overflow-hidden w-40 rounded-2xl bg-gray-200 shadow-lg bg-clip-border border-4">
             {isImpostor ? (
@@ -13,7 +15,7 @@ export function SwipeCard({ isImpostor, image }: SwipeCardProps) {
                     <p className="text-xl font-bold text-red-500">IMPOSTOR</p>
                 </div>
             ) : (
-                <img src={image} alt={`Carta de Clash Royale`} className="w-full h-min" />
+                <img src={newImage} alt={`Carta de Clash Royale`} className="w-full h-min" />
             )}
 
             <motion.div

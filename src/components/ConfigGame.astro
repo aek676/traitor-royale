@@ -1,0 +1,147 @@
+---
+// src/components/ConfigGame.astro
+import { actions } from "astro:actions";
+import MyButton from "./MyButton.astro";
+import { Card } from "./ui/card";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import ActionButton from "./ActionButton.astro";
+
+interface Props {
+    minPlayers?: number;
+    serverError?: string;
+}
+
+const { minPlayers = 3, serverError } = Astro.props;
+---
+
+<div class="min-h-screen flex items-center justify-center p-4">
+    <Card
+        className="w-full max-w-2xl bg-card/90 backdrop-blur border-border p-8 space-y-6"
+    >
+        <div class="text-center space-y-2">
+            <h2 class="text-4xl font-bold text-foreground">Configuración</h2>
+            <p class="text-muted-foreground">
+                Añade al menos {minPlayers} jugadores
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex gap-2">
+                <div class="flex-1">
+                    <Label htmlFor="playerName" className="text-foreground"
+                        >Nombre</Label
+                    >
+                    <Input
+                        id="playerName"
+                        placeholder="Nombre..."
+                        className="mt-1 bg-muted/50"
+                    />
+                </div>
+                <div class="flex items-end">
+                    <button
+                        type="button"
+                        id="addPlayerBtn"
+                        disabled
+                        class="px-4 py-2 rounded-md bg-secondary text-secondary-foreground"
+                    >
+                        Añadir
+                    </button>
+                </div>
+            </div>
+
+            <div id="playersSection" class="space-y-2 hidden">
+                <Label>Jugadores (<span id="playerCount">0</span>)</Label>
+                <div
+                    id="playersList"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-48 overflow-y-auto"
+                >
+                </div>
+            </div>
+        </div>
+
+        <form
+            method="POST"
+            action={actions.game.startGame}
+            id="startGameForm"
+            class="mt-6"
+        >
+            <fieldset id="startGameFieldset" disabled>
+                <div id="hiddenInputsContainer"></div>
+
+                <ActionButton text="Iniciar Juego" />
+            </fieldset>
+
+            {
+                serverError && (
+                    <div class="mt-4 p-3 bg-red-900/50 border border-red-500 text-red-200 rounded text-sm">
+                        ❌ Error: {serverError}
+                    </div>
+                )
+            }
+        </form>
+    </Card>
+</div>
+
+<script define:vars={{ minPlayers }}>
+    let players = [];
+    const playerNameInput = document.getElementById("playerName");
+    const addPlayerBtn = document.getElementById("addPlayerBtn");
+    const playersSection = document.getElementById("playersSection");
+    const playersList = document.getElementById("playersList");
+    const playerCount = document.getElementById("playerCount");
+    const fieldset = document.getElementById("startGameFieldset");
+    const hiddenInputsContainer = document.getElementById(
+        "hiddenInputsContainer",
+    );
+
+    function updateUI() {
+        playerCount.textContent = players.length;
+        playersSection.classList.toggle("hidden", players.length === 0);
+        fieldset.disabled = players.length < minPlayers;
+
+        playersList.innerHTML = players
+            .map(
+                (p, i) => `
+        <div class="flex justify-between bg-muted/50 p-3 rounded border border-border">
+          <span>${p}</span>
+          <button type="button" class="text-destructive delete-btn" data-index="${i}">X</button>
+        </div>
+    `,
+            )
+            .join("");
+
+        hiddenInputsContainer.innerHTML = players
+            .map((p) => `<input type="hidden" name="players" value="${p}" />`)
+            .join("");
+
+        document.querySelectorAll(".delete-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                const idx = parseInt(e.target.dataset.index);
+                players = players.filter((_, i) => i !== idx);
+                updateUI();
+            });
+        });
+    }
+
+    function handleAdd() {
+        const val = playerNameInput.value.trim();
+        if (val) {
+            players.push(val);
+            playerNameInput.value = "";
+            updateUI();
+        }
+    }
+
+    addPlayerBtn.addEventListener("click", handleAdd);
+    playerNameInput.addEventListener(
+        "input",
+        () => (addPlayerBtn.disabled = !playerNameInput.value.trim()),
+    );
+    playerNameInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleAdd();
+        }
+    });
+</script>

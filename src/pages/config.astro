@@ -1,8 +1,25 @@
 ---
+// src/pages/config.astro
 import Layout from "@/layouts/Layout.astro";
-import SetupScreen from "@/components/SetupScreen.astro";
+// Importa TU componente del formulario. Asumo que se llama ConfigGame.astro
+import ConfigGame from "@/components/ConfigGame.astro";
+import { actions } from "astro:actions";
+
+// 1. CAPTURAMOS EL RESULTADO ANTES DE PINTAR NADA
+const result = Astro.getActionResult(actions.game.startGame);
+
+// 2. SI TODO FUE BIEN, REDIRIGIMOS (Aquí aún no se ha enviado HTML)
+if (result && !result.error && result.data?.success) {
+    return Astro.redirect(
+        `/game/${encodeURIComponent(result.data.firstPlayer)}`,
+    );
+}
+
+// 3. SI HUBO ERROR, LO PREPARAMOS
+// Si result.error es un objeto complejo, sacamos el mensaje
+const errorMessage = result?.error ? JSON.stringify(result.error) : undefined;
 ---
 
-<Layout title="Selección de jugadores">
-    <SetupScreen onGameStartRedirect="/game" />
+<Layout title="Configuración de la partida">
+    <ConfigGame serverError={errorMessage} />
 </Layout>

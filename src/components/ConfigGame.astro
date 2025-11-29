@@ -1,10 +1,10 @@
 ---
-// src/components/ConfigGame.astro
 import { actions } from "astro:actions";
 import MyButton from "./MyButton.astro";
 import { Card } from "./ui/card";
 import { Label } from "./ui/label";
 import MyInput from "./MyInput.astro";
+import PlayerListItem from "./PlayerListItem.astro";
 
 interface Props {
     minPlayers?: number;
@@ -50,10 +50,14 @@ const { minPlayers = 3, serverError } = Astro.props;
                 <Label>Jugadores (<span id="playerCount">0</span>)</Label>
                 <div
                     id="playersList"
-                    class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-48 overflow-y-auto"
+                    class="flex flex-wrap justify-center gap-2 max-h-64 overflow-y-auto p-2"
                 >
                 </div>
             </div>
+
+            <template id="player-template">
+                <PlayerListItem playerName="" />
+            </template>
         </div>
 
         <form
@@ -92,6 +96,7 @@ const { minPlayers = 3, serverError } = Astro.props;
     );
     const startGameForm = document.getElementById("startGameForm");
     const submitBtn = fieldset.querySelector('button[type="submit"]');
+    const playerTemplate = document.getElementById("player-template");
 
     function updateUI() {
         playerCount.textContent = players.length;
@@ -104,28 +109,30 @@ const { minPlayers = 3, serverError } = Astro.props;
             submitBtn.setAttribute("data-disabled", "true");
         }
 
-        playersList.innerHTML = players
-            .map(
-                (p, i) => `
-        <div class="flex justify-between bg-muted/50 p-3 rounded border border-border">
-          <span>${p}</span>
-          <button type="button" class="text-destructive delete-btn" data-index="${i}">X</button>
-        </div>
-    `,
-            )
-            .join("");
+        playersList.innerHTML = "";
+
+        players.forEach((p, i) => {
+            const clone = playerTemplate.content.cloneNode(true);
+            const nameEl = clone.querySelector(".player-name-text");
+            if (nameEl) nameEl.textContent = p;
+
+            const deleteBtn = clone.querySelector(".delete-player-btn");
+            if (deleteBtn) {
+                deleteBtn.dataset.index = i;
+                deleteBtn.addEventListener("click", (e) => {
+                    const idx = parseInt(
+                        e.target.closest("button").dataset.index,
+                    );
+                    players = players.filter((_, index) => index !== idx);
+                    updateUI();
+                });
+            }
+            playersList.appendChild(clone);
+        });
 
         hiddenInputsContainer.innerHTML = players
             .map((p) => `<input type="hidden" name="players" value="${p}" />`)
             .join("");
-
-        document.querySelectorAll(".delete-btn").forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-                const idx = parseInt(e.target.dataset.index);
-                players = players.filter((_, i) => i !== idx);
-                updateUI();
-            });
-        });
     }
 
     function handleAdd() {

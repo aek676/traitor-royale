@@ -1,0 +1,163 @@
+---
+interface Props {
+    playerName?: string;
+    scale?: number;
+}
+
+const { playerName = "", scale = 0.6 } = Astro.props;
+---
+
+<div class="player-list-item relative inline-block mx-2 my-1 group">
+    <div class="my-button-wrapper" style={`--scale: ${scale};`}>
+        <div class="couche1">
+            <div class="couche2">
+                <div class="couche23">
+                    <div class="couche3">
+                        <div class="couche4">
+                            <div class="battle player-name-text">
+                                {playerName}
+                            </div>
+                            <div class="couche5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button
+        type="button"
+        class="delete-player-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md transition-transform hover:scale-110 z-10 cursor-pointer border-2 border-white"
+        aria-label="Eliminar jugador"
+    >
+        ✕
+    </button>
+</div>
+
+<style>
+    .my-button-wrapper {
+        display: inline-block;
+        width: calc(300px * var(--scale));
+        height: calc(100px * var(--scale));
+        position: relative;
+    }
+
+    .couche1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-border-radius: 11px;
+        -moz-border-radius: 11px;
+        border-radius: 11px;
+        width: 300px;
+        height: 100px;
+        background: black;
+        -webkit-box-shadow: 0px 11px 2px #301c09;
+        -moz-box-shadow: 0px 11px 2px #301c09;
+        box-shadow: 0px 11px 2px #301c09;
+        cursor: pointer;
+
+        margin: 0;
+        border: none;
+        padding: 0;
+
+        transform: translate(-50%, -50%) scale(var(--scale));
+        transform-origin: center;
+    }
+
+    .couche1:active {
+        transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.95))
+            translateY(5px);
+    }
+
+    .couche1:active .battle {
+        font-size: 1.9em;
+    }
+
+    .couche2 {
+        position: absolute;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        width: 294px;
+        height: 94px;
+        top: 3px;
+        left: 3px;
+        background: #fda80d;
+        -webkit-box-shadow: 0px 9px 0px #af6b06;
+        -moz-box-shadow: 0px 9px 0px #af6b06;
+        box-shadow: 0px 9px 0px #af6b06;
+    }
+
+    .couche23 {
+        position: absolute;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        width: 292px;
+        height: 80px;
+        top: 5px;
+        left: 1px;
+        -webkit-box-shadow: 0px -4px 5px 0px #ffdc33;
+        -moz-box-shadow: 0px -4px 5px 0px #ffdc33;
+        box-shadow: 0px -4px 5px 0px #ffdc33;
+    }
+
+    .couche3 {
+        position: absolute;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        top: 0px;
+        left: 5px;
+        width: 281px;
+        height: 82px;
+        background: rgba(255, 187, 42, 1);
+        -webkit-box-shadow: 0px 4px 3px 0px #fe8906;
+        -moz-box-shadow: 0px 4px 3px 0px #fe8906;
+        box-shadow: 0px 4px 3px 0px #fe8906;
+    }
+
+    .couche4 {
+        position: absolute;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        top: 5px;
+        left: 3px;
+        width: 275px;
+        height: 38px;
+        background: #ffd053;
+    }
+
+    .couche5 {
+        position: absolute;
+        -webkit-border-radius: 45%;
+        -moz-border-radius: 45%;
+        border-radius: 45%;
+        top: 0px;
+        left: 267px;
+        width: 7px;
+        height: 9px;
+        background: #fff1b6;
+    }
+
+    .battle {
+        position: absolute;
+        font-style: normal;
+        font-weight: 400;
+        color: #ffffcc;
+        font-size: 2em;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-shadow:
+            -1px 0 1px #582e00,
+            1px 0 1px #582e00,
+            0 -1px 1px #582e00,
+            0 4px 1px #582e00,
+            -2px 4px 1px #582e00,
+            2px 3px 2px #582e00;
+        white-space: nowrap;
+    }
+</style>

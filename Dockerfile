@@ -9,7 +9,6 @@ RUN cd /temp/dev && bun install --frozen-lockfile
 RUN mkdir -p /temp/prod
 COPY package.json bun.lock /temp/prod/
 RUN cd /temp/prod && bun install --frozen-lockfile --production
-
 FROM base AS prerelease
 COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
@@ -24,11 +23,9 @@ COPY --from=prerelease /usr/src/app/package.json .
 
 RUN mkdir -p ./.astro/sessions && chown -R bun:bun ./.astro
 
-# for external access
 ENV HOST=0.0.0.0
 ENV PORT=4321
 
-# run the app
 USER bun
 EXPOSE 4321/tcp
 ENTRYPOINT [ "bun", "--init", "./dist/server/entry.mjs" ]

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Clash Royale Card Replica</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            /* Reset básico y centrado para la demo */
+            body {
+                background-color: #2c3e50;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                font-family: sans-serif;
+            }
+
+            /* --- Componente Carta --- */
+            .cr-card {
+                position: relative;
+                width: 160px; /* Ancho base, escalable */
+                aspect-ratio: 0.82; /* Mantiene la proporción original de la carta */
+                border-radius: 14px;
+
+                /* El borde exterior oscuro típico de CR */
+                background-color: #000;
+                padding: 5px; /* Simula el grosor del borde negro */
+
+                /* Sombra suave para darle elevación sobre el fondo */
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+
+                /* Evita que la imagen se salga de los bordes redondeados */
+                box-sizing: border-box;
+                user-select: none;
+                cursor: pointer;
+                transition: transform 0.1s ease;
+            }
+
+            /* Efecto de "click" */
+            .cr-card:active {
+                transform: scale(0.95);
+            }
+
+            /* Contenedor interno de la imagen */
+            .cr-card__inner {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                overflow: hidden;
+                position: relative;
+                background: #4a6fa5; /* Color de fondo por si falla la imagen (Common card) */
+            }
+
+            /* La imagen del personaje */
+            .cr-card__image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: top center;
+                display: block;
+            }
+
+            /* Brillo especular (Highlight) en la esquina superior izquierda */
+            .cr-card__shine {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0.1) 20%,
+                    transparent 50%
+                );
+                pointer-events: none;
+                z-index: 2;
+            }
+
+            /* El texto "x10" */
+            .cr-card__count {
+                position: absolute;
+                bottom: 5px;
+                width: 100%;
+                text-align: center;
+                z-index: 3;
+
+                /* Estilos de fuente */
+                font-family: "Luckiest Guy", cursive;
+                font-size: 42px;
+                color: #fff;
+                line-height: 1;
+
+                /* Técnica avanzada para el borde negro grueso */
+                /* 1. Stroke estándar de webkit */
+                -webkit-text-stroke: 2.5px black;
+
+                /* 2. Sombra dura para dar profundidad y rellenar huecos del stroke */
+                text-shadow:
+                    3px 3px 0 #000,
+                    -1px -1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px 1px 0 #000,
+                    1px 1px 0 #000;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="cr-card">
+            <div class="cr-card__inner">
+                <div class="cr-card__shine"></div>
+
+                <img
+                    src="https://i.pinimg.com/736x/82/02/08/8202088820f4c000f08967527e2f58b0.jpg"
+                    alt="Spear Goblins"
+                    class="cr-card__image"
+                />
+            </div>
+
+            <div class="cr-card__count">x10</div>
+        </div>
+    </body>
+</html>

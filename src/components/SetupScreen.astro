@@ -1,0 +1,175 @@
+---
+import { X } from "lucide-react";
+import { actions } from "astro:actions";
+import MyButton from "./MyButton.astro";
+import { Card } from "./ui/card";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+
+interface Props {
+    onGameStartRedirect: string;
+    minPlayers?: number;
+}
+
+const { minPlayers = 3 } = Astro.props;
+---
+
+<div class="min-h-screen flex items-center justify-center p-4">
+    <Card className="w-full max-w-2xl bg-card/90 backdrop-blur border-border p-8 space-y-6 animate-in fade-in duration-500">
+        <div class="text-center space-y-2">
+            <h2 class="text-4xl font-bold text-foreground">Configuración</h2>
+            <p class="text-muted-foreground">
+                Añade al menos {minPlayers} jugadores para empezar
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex gap-2">
+                <div class="flex-1">
+                    <Label htmlFor="playerName" className="text-foreground">
+                        Nombre del jugador
+                    </Label>
+                    <Input
+                        id="playerName"
+                        placeholder="Escribe un nombre..."
+                        className="mt-1 bg-muted/50 border-border text-foreground"
+                    />
+                </div>
+                <div class="flex items-end">
+                    <button
+                        type="button"
+                        id="addPlayerBtn"
+                        disabled
+                        class="px-4 py-2 rounded-md bg-secondary hover:bg-secondary/90 text-secondary-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Añadir
+                    </button>
+                </div>
+            </div>
+
+            <div id="playersSection" class="space-y-2 hidden">
+                <Label className="text-foreground">
+                    Jugadores (<span id="playerCount">0</span>)
+                </Label>
+                <div id="playersList" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+                </div>
+            </div>
+        </div>
+
+        <form id="startGameForm" action={actions.game.startGame} method="POST">
+            <fieldset id="startGameFieldset" disabled>
+                <MyButton text="Iniciar Juego" type="submit" />
+            </fieldset>
+        </form>
+    </Card>
+</div>
+
+<script define:vars={{ minPlayers }}>
+    const playerNameInput = document.getElementById('playerName');
+    const addPlayerBtn = document.getElementById('addPlayerBtn');
+    const playersSection = document.getElementById('playersSection');
+    const playersList = document.getElementById('playersList');
+    const playerCount = document.getElementById('playerCount');
+    const startGameFieldset = document.getElementById('startGameFieldset');
+    const startGameForm = document.getElementById('startGameForm');
+
+    let players = [];
+
+    function updateUI() {
+        // Actualizar contador
+        playerCount.textContent = players.length;
+
+        // Mostrar/ocultar sección de jugadores
+        if (players.length > 0) {
+            playersSection.classList.remove('hidden');
+        } else {
+            playersSection.classList.add('hidden');
+        }
+
+        // Habilitar/deshabilitar botón de iniciar
+        const canStart = players.length >= minPlayers;
+        startGameFieldset.disabled = !canStart;
+
+        // Renderizar lista de jugadores
+        playersList.innerHTML = players.map((player, index) => `
+            <div class="flex items-center justify-between bg-muted/50 p-3 rounded-lg border border-border">
+                <span class="text-foreground font-medium">${player}</span>
+                <button
+                    type="button"
+                    class="text-destructive hover:text-destructive hover:bg-destructive/10 p-1 rounded"
+                    data-index="${index}"
+                    aria-label="Eliminar jugador"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+            </div>
+        `).join('');
+
+        // Agregar event listeners a los botones de eliminar
+        const removeButtons = playersList.querySelectorAll('button[data-index]');
+        removeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const index = parseInt(btn.dataset.index);
+                players = players.filter((_, i) => i !== index);
+                updateUI();
+            });
+        });
+    }
+
+    function handleAddPlayer() {
+        const playerName = playerNameInput.value.trim();
+        if (playerName) {
+            players.push(playerName);
+            playerNameInput.value = '';
+            updateUI();
+            updateAddButtonState();
+        }
+    }
+
+    function updateAddButtonState() {
+        addPlayerBtn.disabled = !playerNameInput.value.trim();
+    }
+
+    // Event listeners
+    playerNameInput.addEventListener('input', updateAddButtonState);
+    
+    playerNameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleAddPlayer();
+        }
+    });
+
+    addPlayerBtn.addEventListener('click', handleAddPlayer);
+
+    startGameForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        if (players.length < minPlayers) return;
+
+        const formData = new FormData();
+        players.forEach(player => formData.append('players', player));
+
+        fetch(startGameForm.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(result => {
+            if (result.data?.success) {
+                const firstPlayer = result.data.firstPlayer;
+                window.location.href = `/game/${encodeURIComponent(firstPlayer)}`;
+            } else {
+                console.error('Error al iniciar el juego:', result.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error al iniciar el juego:', error);
+        });
+    });
+
+    // Inicializar
+    updateUI();
+</script>

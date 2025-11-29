@@ -1,8 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { SetupScreen } from "@/components/SetupScreen";
+import SetupScreen from "@/components/SetupScreen.astro";
 ---
 
 <Layout title="Selección de jugadores">
-    <SetupScreen onGameStartRedirect="/game" client:load />
+    <SetupScreen onGameStartRedirect="/game" />
 </Layout>

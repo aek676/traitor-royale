@@ -5,7 +5,6 @@ import MyButton from "./MyButton.astro";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import ActionButton from "./ActionButton.astro";
 
 interface Props {
     minPlayers?: number;
@@ -39,14 +38,13 @@ const { minPlayers = 3, serverError } = Astro.props;
                     />
                 </div>
                 <div class="flex items-end">
-                    <button
-                        type="button"
+                    <MyButton
                         id="addPlayerBtn"
-                        disabled
-                        class="px-4 py-2 rounded-md bg-secondary text-secondary-foreground"
-                    >
-                        Añadir
-                    </button>
+                        text="Añadir"
+                        type="button"
+                        scale={0.4}
+                        disabled={true}
+                    />
                 </div>
             </div>
 
@@ -66,10 +64,10 @@ const { minPlayers = 3, serverError } = Astro.props;
             id="startGameForm"
             class="mt-6"
         >
-            <fieldset id="startGameFieldset" disabled>
+            <fieldset id="startGameFieldset" class="flex justify-center">
                 <div id="hiddenInputsContainer"></div>
 
-                <ActionButton text="Iniciar Juego" />
+                <MyButton text="Iniciar Juego" type="submit" scale={0.8} />
             </fieldset>
 
             {
@@ -94,11 +92,19 @@ const { minPlayers = 3, serverError } = Astro.props;
     const hiddenInputsContainer = document.getElementById(
         "hiddenInputsContainer",
     );
+    const startGameForm = document.getElementById("startGameForm");
+    const submitBtn = fieldset.querySelector('button[type="submit"]');
 
     function updateUI() {
         playerCount.textContent = players.length;
         playersSection.classList.toggle("hidden", players.length === 0);
-        fieldset.disabled = players.length < minPlayers;
+
+        const canStart = players.length >= minPlayers;
+        if (canStart) {
+            submitBtn.removeAttribute("data-disabled");
+        } else {
+            submitBtn.setAttribute("data-disabled", "true");
+        }
 
         playersList.innerHTML = players
             .map(
@@ -130,18 +136,38 @@ const { minPlayers = 3, serverError } = Astro.props;
             players.push(val);
             playerNameInput.value = "";
             updateUI();
+            checkInput(); // Re-evaluar estado del botón tras limpiar input
         }
     }
 
     addPlayerBtn.addEventListener("click", handleAdd);
-    playerNameInput.addEventListener(
-        "input",
-        () => (addPlayerBtn.disabled = !playerNameInput.value.trim()),
-    );
+
+    // Función para comprobar el estado del botón
+    const checkInput = () => {
+        const hasInput = !!playerNameInput.value.trim();
+        if (hasInput) {
+            addPlayerBtn.removeAttribute("data-disabled");
+        } else {
+            addPlayerBtn.setAttribute("data-disabled", "true");
+        }
+    };
+
+    playerNameInput.addEventListener("input", checkInput);
+
+    // Comprobación inicial por si el navegador autorellena el campo
+    checkInput();
+    updateUI();
+
     playerNameInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
             handleAdd();
+        }
+    });
+
+    startGameForm.addEventListener("submit", (e) => {
+        if (players.length < minPlayers) {
+            e.preventDefault();
         }
     });
 </script>

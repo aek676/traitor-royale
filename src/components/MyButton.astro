@@ -1,0 +1,36 @@
+---
+interface Props {
+    text: string;
+    type?: "button" | "submit" | "reset";
+    disabled?: boolean;
+    href?: string;
+    id?: string;
+    class?: string;
+}
+
+const {
+    text,
+    type = "button",
+    disabled = false,
+    href,
+    id,
+    class: className,
+    ...rest
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+const props = href ? { href, ...rest } : { type, disabled, ...rest };
+---
+
+<Tag class:list={["couche1", className]} id={id} {...props}>
+    <div class="couche2">
+        <div class="couche23">
+            <div class="couche3">
+                <div class="couche4">
+                    <div class="battle">{text}</div>
+                    <div class="couche5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</Tag>

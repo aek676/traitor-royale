@@ -3,8 +3,8 @@
 import { actions } from "astro:actions";
 import MyButton from "./MyButton.astro";
 import { Card } from "./ui/card";
-import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import MyInput from "./MyInput.astro";
 
 interface Props {
     minPlayers?: number;
@@ -28,21 +28,19 @@ const { minPlayers = 3, serverError } = Astro.props;
         <div class="space-y-4">
             <div class="flex gap-2">
                 <div class="flex-1">
-                    <Label htmlFor="playerName" className="text-foreground"
-                        >Nombre</Label
+                    <Label
+                        htmlFor="playerName"
+                        className="text-foreground hidden">Nombre</Label
                     >
-                    <Input
-                        id="playerName"
-                        placeholder="Nombre..."
-                        className="mt-1 bg-muted/50"
-                    />
+
+                    <MyInput id="playerName" placeholder="Nombre..." />
                 </div>
                 <div class="flex items-end">
                     <MyButton
                         id="addPlayerBtn"
                         text="Añadir"
                         type="button"
-                        scale={0.4}
+                        scale={0.45}
                         disabled={true}
                     />
                 </div>
@@ -136,13 +134,12 @@ const { minPlayers = 3, serverError } = Astro.props;
             players.push(val);
             playerNameInput.value = "";
             updateUI();
-            checkInput(); // Re-evaluar estado del botón tras limpiar input
+            checkInput();
         }
     }
 
     addPlayerBtn.addEventListener("click", handleAdd);
 
-    // Función para comprobar el estado del botón
     const checkInput = () => {
         const hasInput = !!playerNameInput.value.trim();
         if (hasInput) {
@@ -154,7 +151,6 @@ const { minPlayers = 3, serverError } = Astro.props;
 
     playerNameInput.addEventListener("input", checkInput);
 
-    // Comprobación inicial por si el navegador autorellena el campo
     checkInput();
     updateUI();
 

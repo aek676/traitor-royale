@@ -12,6 +12,9 @@ const { playerName = "", scale = 0.6 } = Astro.props;
 <div class="relative block mx-2 my-1 group w-full">
     <div class="my-button-wrapper" style={`--scale: ${scale};`}>
         <div class="couche1">
+            <div class="absolute top-2 right-2 z-50 x-button-wrapper">
+                <XButton scale={0.6} />
+            </div>
             <div class="couche2">
                 <div class="couche23">
                     <div class="couche3">
@@ -58,12 +61,12 @@ const { playerName = "", scale = 0.6 } = Astro.props;
         transform-origin: center;
     }
 
-    .couche1:active {
+    .couche1:active:not(:has(.x-button-wrapper:active)) {
         transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.95))
             translateY(5px);
     }
 
-    .couche1:active .battle {
+    .couche1:active:not(:has(.x-button-wrapper:active)) .battle {
         font-size: 1.9em;
     }
 

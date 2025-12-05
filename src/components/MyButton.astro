@@ -6,7 +6,7 @@ interface Props {
     href?: string;
     id?: string;
     class?: string;
-    scale?: number; // 1. Nueva propiedad para controlar el tamaño
+    scale?: number;
 }
 
 const {
@@ -16,7 +16,7 @@ const {
     href,
     id,
     class: className,
-    scale = 1, // Por defecto es tamaño normal (1)
+    scale = 1,
     ...rest
 } = Astro.props;
 
@@ -67,17 +67,14 @@ const props = href ? { href, ...rest } : { type, ...rest };
         box-shadow: 0px 11px 2px #301c09;
         cursor: pointer;
 
-        /* 3. CAMBIOS IMPORTANTES AQUÍ */
         margin: 0;
         border: none;
         padding: 0;
 
-        /* Aplicamos la escala usando la variable */
         transform: translate(-50%, -50%) scale(var(--scale));
-        transform-origin: center; /* Escala desde el centro */
+        transform-origin: center;
     }
 
-    /* ... (El resto de las clases couche2, couche3, etc. se quedan IGUAL) ... */
     .couche2 {
         position: absolute;
         -webkit-border-radius: 10px;
@@ -163,12 +160,9 @@ const props = href ? { href, ...rest } : { type, ...rest };
             -2px 4px 1px #582e00,
             2px 3px 2px #582e00;
 
-        /* Aseguramos que el texto no se rompa */
         white-space: nowrap;
     }
 
-    /* 4. ANIMACIÓN CALCULADA */
-    /* Aquí está la magia: Multiplicamos la escala base por el efecto de click */
     .couche1:active {
         transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.95))
             translateY(5px);
@@ -178,20 +172,10 @@ const props = href ? { href, ...rest } : { type, ...rest };
         font-size: 1.9em;
     }
 
-    /* 5. ESTADO DISABLED */
     .couche1:disabled,
     .couche1[data-disabled="true"] {
         filter: grayscale(100%);
         opacity: 0.7;
         cursor: not-allowed;
     }
-
-    /* Permitimos la animación incluso en disabled */
-    /* .couche1:disabled:active {
-        transform: translate(-50%, -50%) scale(var(--scale));
-    }
-
-    .couche1:disabled:active .battle {
-        font-size: 1.7em;
-    } */
 </style>

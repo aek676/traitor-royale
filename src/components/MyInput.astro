@@ -1,0 +1,18 @@
+---
+const { class: className, ...rest } = Astro.props;
+---
+
+<input
+    type="text"
+    class:list={[
+        "w-full border-2 border-[#667c90]  outline-none bg-white rounded-sm h-[45px] px-4 pt-1.5 text-sm shadow-[inset_0_6px_0_#e6e6e6] text-[#333] placeholder:text-[#b0b0b0] placeholder:opacity-100 placeholder:tracking-[0.5px] focus:shadow-[inset_0_6px_0_#d9d9d9]",
+        className,
+    ]}
+    {...rest}
+/>
+
+<style>
+    input::placeholder {
+        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+    }
+</style>

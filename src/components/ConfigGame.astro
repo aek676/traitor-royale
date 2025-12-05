@@ -1,0 +1,196 @@
+---
+import { actions } from "astro:actions";
+import MyButton from "./MyButton.astro";
+import { Card } from "./ui/card";
+import { Label } from "./ui/label";
+import MyInput from "./MyInput.astro";
+import PlayerListItem from "./PlayerListItem.astro";
+
+interface Props {
+    minPlayers?: number;
+    serverError?: string;
+}
+
+const { minPlayers = 3, serverError } = Astro.props;
+---
+
+<div class="min-h-screen flex items-center justify-center p-4">
+    <Card
+        className="w-full max-w-2xl bg-[#e3eef2] backdrop-blur border-border p-8 space-y-6"
+    >
+        <div class="text-center space-y-2">
+            <h2 class="text-4xl text">Configuración</h2>
+            <p class="text-muted-foreground">
+                Añade al menos {minPlayers} jugadores
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="flex gap-2">
+                <div class="flex-1">
+                    <Label
+                        htmlFor="playerName"
+                        className="text-foreground hidden">Nombre</Label
+                    >
+
+                    <MyInput id="playerName" placeholder="Nombre..." />
+                </div>
+                <div class="flex items-end">
+                    <MyButton
+                        id="addPlayerBtn"
+                        text="Añadir"
+                        type="button"
+                        scale={0.45}
+                        disabled={true}
+                    />
+                </div>
+            </div>
+
+            <div id="playersSection" class="space-y-2 hidden">
+                <p class="text-muted-foreground">
+                    Jugadores (<span id="playerCount">0</span>)
+                </p>
+                <div
+                    id="playersList"
+                    class="flex flex-wrap justify-center gap-2 max-h-64 overflow-y-auto p-2"
+                >
+                </div>
+            </div>
+
+            <template id="player-template">
+                <PlayerListItem playerName="" />
+            </template>
+        </div>
+
+        <form
+            method="POST"
+            action={actions.game.startGame}
+            id="startGameForm"
+            class="mt-6"
+        >
+            <fieldset id="startGameFieldset" class="flex justify-center">
+                <div id="hiddenInputsContainer"></div>
+
+                <MyButton text="Iniciar Juego" type="submit" scale={0.8} />
+            </fieldset>
+
+            {
+                serverError && (
+                    <div class="mt-4 p-3 bg-red-900/50 border border-red-500 text-red-200 rounded text-sm">
+                        ❌ Error: {serverError}
+                    </div>
+                )
+            }
+        </form>
+    </Card>
+</div>
+
+<script define:vars={{ minPlayers }}>
+    let players = [];
+    const playerNameInput = document.getElementById("playerName");
+    const addPlayerBtn = document.getElementById("addPlayerBtn");
+    const playersSection = document.getElementById("playersSection");
+    const playersList = document.getElementById("playersList");
+    const playerCount = document.getElementById("playerCount");
+    const fieldset = document.getElementById("startGameFieldset");
+    const hiddenInputsContainer = document.getElementById(
+        "hiddenInputsContainer",
+    );
+    const startGameForm = document.getElementById("startGameForm");
+    const submitBtn = fieldset.querySelector('button[type="submit"]');
+    const playerTemplate = document.getElementById("player-template");
+
+    function removePlayer(index) {
+        players.splice(index, 1);
+        updateUI();
+    }
+
+    function updateUI() {
+        playerCount.textContent = players.length;
+        playersSection.classList.toggle("hidden", players.length === 0);
+
+        const canStart = players.length >= minPlayers;
+        if (canStart) {
+            submitBtn.removeAttribute("data-disabled");
+        } else {
+            submitBtn.setAttribute("data-disabled", "true");
+        }
+
+        playersList.innerHTML = "";
+
+        players.forEach((p, i) => {
+            const clone = playerTemplate.content.cloneNode(true);
+            const nameEl = clone.querySelector(".player-name-text");
+            if (nameEl) nameEl.textContent = p;
+
+            const deleteBtn = clone.querySelector(".x-button-wrapper");
+            if (deleteBtn) {
+                deleteBtn.addEventListener("click", () => removePlayer(i));
+            }
+
+            playersList.appendChild(clone);
+        });
+
+        hiddenInputsContainer.innerHTML = players
+            .map((p) => `<input type="hidden" name="players" value="${p}" />`)
+            .join("");
+    }
+
+    function handleAdd() {
+        const val = playerNameInput.value.trim();
+        if (val) {
+            players.push(val);
+            playerNameInput.value = "";
+            updateUI();
+            checkInput();
+        }
+    }
+
+    addPlayerBtn.addEventListener("click", handleAdd);
+
+    const checkInput = () => {
+        const hasInput = !!playerNameInput.value.trim();
+        if (hasInput) {
+            addPlayerBtn.removeAttribute("data-disabled");
+        } else {
+            addPlayerBtn.setAttribute("data-disabled", "true");
+        }
+    };
+
+    playerNameInput.addEventListener("input", checkInput);
+
+    checkInput();
+    updateUI();
+
+    playerNameInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleAdd();
+        }
+    });
+
+    startGameForm.addEventListener("submit", (e) => {
+        if (players.length < minPlayers) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+<style>
+    .text {
+        font-style: normal;
+        font-weight: 400;
+        color: #ffffff;
+        text-shadow:
+            -1px 0 1px #000000,
+            1px 0 1px #000000,
+            0 -1px 1px #000000,
+            0 4px 1px #000000,
+            -2px 4px 1px #000000,
+            2px 3px 2px #000000;
+
+        white-space: normal;
+        text-align: center;
+        line-height: 0.9;
+    }
+</style>

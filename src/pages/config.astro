@@ -1,8 +1,19 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { SetupScreen } from "@/components/SetupScreen";
+import ConfigGame from "@/components/ConfigGame.astro";
+import { actions } from "astro:actions";
+
+const result = Astro.getActionResult(actions.game.startGame);
+
+if (result && !result.error && result.data?.success) {
+    return Astro.redirect(
+        `/game/${encodeURIComponent(result.data.firstPlayer)}`,
+    );
+}
+
+const errorMessage = result?.error ? JSON.stringify(result.error) : undefined;
 ---
 
-<Layout title="Selección de jugadores">
-    <SetupScreen onGameStartRedirect="/game" client:load />
+<Layout title="Configuración de la partida">
+    <ConfigGame serverError={errorMessage} />
 </Layout>

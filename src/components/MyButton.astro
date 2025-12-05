@@ -1,0 +1,183 @@
+---
+interface Props {
+    text: string;
+    type?: "button" | "submit" | "reset";
+    disabled?: boolean;
+    href?: string;
+    id?: string;
+    class?: string;
+    scale?: number;
+}
+
+const {
+    text,
+    type = "button",
+    disabled = false,
+    href,
+    id,
+    class: className,
+    scale = 1,
+    ...rest
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+const props = href ? { href, ...rest } : { type, ...rest };
+---
+
+<div class:list={["my-button-wrapper", className]} style={`--scale: ${scale};`}>
+    <Tag
+        class="couche1"
+        id={id}
+        {...props}
+        data-disabled={disabled ? "true" : undefined}
+    >
+        <div class="couche2">
+            <div class="couche23">
+                <div class="couche3">
+                    <div class="couche4">
+                        <div class="battle">{text}</div>
+                        <div class="couche5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Tag>
+</div>
+
+<style>
+    .my-button-wrapper {
+        display: inline-block;
+        width: calc(300px * var(--scale));
+        height: calc(100px * var(--scale));
+        position: relative;
+    }
+
+    .couche1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        border-radius: 11px;
+        width: 300px;
+        height: 100px;
+        background: black;
+        -webkit-box-shadow: 0px 11px 2px #301c09;
+        -moz-box-shadow: 0px 11px 2px #301c09;
+        box-shadow: 0px 11px 2px #301c09;
+        cursor: pointer;
+
+        margin: 0;
+        border: none;
+        padding: 0;
+
+        transform: translate(-50%, -50%) scale(var(--scale));
+        transform-origin: center;
+    }
+
+    .couche2 {
+        position: absolute;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        width: 294px;
+        height: 94px;
+        top: 3px;
+        left: 3px;
+        background: #fda80d;
+        -webkit-box-shadow: 0px 9px 0px #af6b06;
+        -moz-box-shadow: 0px 9px 0px #af6b06;
+        box-shadow: 0px 9px 0px #af6b06;
+    }
+
+    .couche23 {
+        position: absolute;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        width: 292px;
+        height: 80px;
+        top: 5px;
+        left: 1px;
+        -webkit-box-shadow: 0px -4px 5px 0px #ffdc33;
+        -moz-box-shadow: 0px -4px 5px 0px #ffdc33;
+        box-shadow: 0px -4px 5px 0px #ffdc33;
+    }
+
+    .couche3 {
+        position: absolute;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        top: 0px;
+        left: 5px;
+        width: 281px;
+        height: 82px;
+        background: rgba(255, 187, 42, 1);
+        -webkit-box-shadow: 0px 4px 3px 0px #fe8906;
+        -moz-box-shadow: 0px 4px 3px 0px #fe8906;
+        box-shadow: 0px 4px 3px 0px #fe8906;
+    }
+
+    .couche4 {
+        position: absolute;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        top: 5px;
+        left: 3px;
+        width: 275px;
+        height: 38px;
+        background: #ffd053;
+    }
+
+    .couche5 {
+        position: absolute;
+        -webkit-border-radius: 45%;
+        -moz-border-radius: 45%;
+        border-radius: 45%;
+        top: 0px;
+        left: 267px;
+        width: 7px;
+        height: 9px;
+        background: #fff1b6;
+    }
+
+    .battle {
+        position: absolute;
+        font-style: normal;
+        font-weight: 400;
+        color: #ffffcc;
+        font-size: 2em;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-shadow:
+            -1px 0 1px #582e00,
+            1px 0 1px #582e00,
+            0 -1px 1px #582e00,
+            0 4px 1px #582e00,
+            -2px 4px 1px #582e00,
+            2px 3px 2px #582e00;
+
+        white-space: normal;
+        text-align: center;
+        width: 100%;
+        line-height: 0.9;
+    }
+
+    .couche1:active {
+        transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.95))
+            translateY(5px);
+    }
+
+    .couche1:active .battle {
+        font-size: 1.9em;
+    }
+
+    .couche1:disabled,
+    .couche1[data-disabled="true"] {
+        filter: grayscale(100%);
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+</style>

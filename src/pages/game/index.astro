@@ -1,7 +1,7 @@
 ---
 import PressToReveal from "@/components/PressToReveal";
 import Layout from "@/layouts/Layout.astro";
-import ActionButton from "@/components/ActionButton";
+import ActionButton from "@/components/ActionButton.astro";
 import { actions } from "astro:actions";
 
 const [randomPlayerToStart, players] = await Promise.all([
@@ -38,18 +38,18 @@ if (clearGame && !clearGame.error) {
             nameImpostor={impostor?.name || "Desconocido"}
             client:load
         />
-        <div class="flex flex-col sm:flex-row justify-center sm:gap-8">
+        <div class="flex flex-col sm:flex-row justify-center gap-8">
             <form action={actions.game.startGame} method="post">
                 {
                     playersNames.map((name) => (
                         <input type="hidden" name="players" value={name} />
                     ))
                 }
-                <ActionButton client:load text="Otra partida" />
+                <ActionButton text="Otra partida" />
             </form>
 
             <form action={actions.game.clearGame} method="post">
-                <ActionButton client:load text="Nuevo juego" />
+                <ActionButton text="Nuevo juego" />
             </form>
         </div>
     </div>

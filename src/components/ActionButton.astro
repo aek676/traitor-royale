@@ -1,0 +1,11 @@
+---
+import MyButton from "./MyButton.astro";
+
+interface Props {
+    text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<MyButton text={text} type="submit" />

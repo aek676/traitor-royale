@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { SwipeCard } from "@/components/SwipeToRevealCard";
-import LinkButton from "@/components/LinkButton";
+import LinkButton from "@/components/LinkButton.astro";
 
 export const prerender = false;
 
@@ -34,7 +34,6 @@ const randomCard = !currentPlayer.isImpostor
             image={randomCard?.iconUrls.medium}
         />
         <LinkButton
-            client:load
             href={`/game/${currentPlayer.nextPlayer === "-1" ? "" : encodeURIComponent(currentPlayer.nextPlayer)}`}
             text="Siguiente jugador"
         >

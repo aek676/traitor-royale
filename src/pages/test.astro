@@ -1,0 +1,19 @@
+---
+import PlayerListItem from "@/components/PlayerListItem.astro";
+import Layout from "../layouts/Layout.astro";
+import { Card } from "@/components/ui/card";
+import XButton from "@/components/XButton.astro";
+---
+
+<Layout title="Test Page">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <Card
+            className="w-full max-w-2xl bg-white backdrop-blur border-border p-8 space-y-6"
+        >
+            <div class="space-y-4">
+                <PlayerListItem playerName="ABCD" />
+                <XButton scale={0.4} />
+            </div>
+        </Card>
+    </div>
+</Layout>

@@ -116,17 +116,6 @@ const { minPlayers = 3, serverError } = Astro.props;
             const nameEl = clone.querySelector(".player-name-text");
             if (nameEl) nameEl.textContent = p;
 
-            const deleteBtn = clone.querySelector(".delete-player-btn");
-            if (deleteBtn) {
-                deleteBtn.dataset.index = i;
-                deleteBtn.addEventListener("click", (e) => {
-                    const idx = parseInt(
-                        e.target.closest("button").dataset.index,
-                    );
-                    players = players.filter((_, index) => index !== idx);
-                    updateUI();
-                });
-            }
             playersList.appendChild(clone);
         });
 

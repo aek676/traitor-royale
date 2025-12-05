@@ -98,6 +98,11 @@ const { minPlayers = 3, serverError } = Astro.props;
     const submitBtn = fieldset.querySelector('button[type="submit"]');
     const playerTemplate = document.getElementById("player-template");
 
+    function removePlayer(index) {
+        players.splice(index, 1);
+        updateUI();
+    }
+
     function updateUI() {
         playerCount.textContent = players.length;
         playersSection.classList.toggle("hidden", players.length === 0);
@@ -115,6 +120,11 @@ const { minPlayers = 3, serverError } = Astro.props;
             const clone = playerTemplate.content.cloneNode(true);
             const nameEl = clone.querySelector(".player-name-text");
             if (nameEl) nameEl.textContent = p;
+
+            const deleteBtn = clone.querySelector(".x-button-wrapper");
+            if (deleteBtn) {
+                deleteBtn.addEventListener("click", () => removePlayer(i));
+            }
 
             playersList.appendChild(clone);
         });

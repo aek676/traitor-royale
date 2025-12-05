@@ -16,10 +16,10 @@ const { minPlayers = 3, serverError } = Astro.props;
 
 <div class="min-h-screen flex items-center justify-center p-4">
     <Card
-        className="w-full max-w-2xl bg-card/90 backdrop-blur border-border p-8 space-y-6"
+        className="w-full max-w-2xl bg-[#e3eef2] backdrop-blur border-border p-8 space-y-6"
     >
         <div class="text-center space-y-2">
-            <h2 class="text-4xl font-bold text-foreground">Configuración</h2>
+            <h2 class="text-4xl text">Configuración</h2>
             <p class="text-muted-foreground">
                 Añade al menos {minPlayers} jugadores
             </p>
@@ -47,7 +47,9 @@ const { minPlayers = 3, serverError } = Astro.props;
             </div>
 
             <div id="playersSection" class="space-y-2 hidden">
-                <Label>Jugadores (<span id="playerCount">0</span>)</Label>
+                <p class="text-muted-foreground">
+                    Jugadores (<span id="playerCount">0</span>)
+                </p>
                 <div
                     id="playersList"
                     class="flex flex-wrap justify-center gap-2 max-h-64 overflow-y-auto p-2"
@@ -173,3 +175,23 @@ const { minPlayers = 3, serverError } = Astro.props;
         }
     });
 </script>
+
+<style>
+    .text {
+        font-style: normal;
+        font-weight: 400;
+        color: #ffffff;
+        text-shadow:
+            -1px 0 1px #000000,
+            1px 0 1px #000000,
+            0 -1px 1px #000000,
+            0 4px 1px #000000,
+            -2px 4px 1px #000000,
+            2px 3px 2px #000000;
+
+        /* Typography from the requested style */
+        white-space: normal;
+        text-align: center;
+        line-height: 0.9;
+    }
+</style>
